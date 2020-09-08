@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 var logger = require('morgan')
 var cors = require('cors')
 var mongoose = require('mongoose')
+var fileUpload = require('express-fileupload')
 
 var Item = require('./item-model')
 var Type = require('./type-model')
@@ -14,6 +15,9 @@ var app = express()
 app.use(cors())
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+app.use(fileUpload())
+
 app.use(logger('dev'))
 
 var connectionString = 'mongodb://khoi:Khoitran2004@group-summative-shard-00-00.2tjnk.mongodb.net:27017,group-summative-shard-00-01.2tjnk.mongodb.net:27017,group-summative-shard-00-02.2tjnk.mongodb.net:27017/ShuBox?ssl=true&replicaSet=atlas-g9aucv-shard-0&authSource=admin&retryWrites=true&w=majority'
