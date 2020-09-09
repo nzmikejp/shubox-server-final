@@ -93,37 +93,6 @@ router.get('/types/:id', (req, res) => {
 	})
 })
 
-router.post('/types', (res, req) => {
-	var type = new Type()
-	type.id = Date.now()
-
-	var data = req.body
-	Object.assign(type, data)
-	type.save()
-	.then((type) => {
-		res.json(type)
-	})
-})
-
-router.put('/types/:id', (req, res) => {
-	Type.findOne({id:req.params.id})
-	.then((type) => {
-		var data = req.body
-		Object.assign(type, data)
-		return type.save()
-	})
-	.then((type) => {
-		res.json(type)
-	})
-})
-
-router.delete('/types/:id', (req, res) => {
-	Type.deleteOne({id:req.params.id})
-	.then(() => {
-		res.json('deleted')
-	})	
-})
-
 //---------------------users route---------------------
 router.get('/users', (req, res) => {
 	User.find()
@@ -168,6 +137,26 @@ router.delete('/users/:id', (req, res) => {
 	.then(() => {
 		res.json('deleted')
 	})	
+})
+
+router.post('/users/authenticate', (req, res) => {
+	var {username, password} = req.body;
+	var credential = {username, password}
+	User.findOne(credential)
+	.then((user) => {
+		return res.json(user)
+	})
+})
+
+router.post('/upload', (req, res) => {
+	var files = Object.values(req.files)
+	var uploadedFile = files[0]
+
+	var newName = Date.now() + uploadedFile.name
+
+	uploadedFile.mv('public/' + newName, function(){
+		res.send(newName)
+	})
 })
 
 //use server to serve up routes
