@@ -47,7 +47,7 @@ router.get('/items/:id', (req, res) => {
 	})
 })
 
-router.post('/items', (res, req) => {
+router.post('/items', (req, res) => {
 	var item = new Item()
 	item.id = Date.now()
 
@@ -108,12 +108,13 @@ router.get('/users/:id', (req, res) => {
 	})
 })
 
-router.post('/users', (res, req) => {
+router.post('/users', (req,res) => {
 	var user = new User()
 	user.id = Date.now()
 
 	var data = req.body
-	Object.assign(user, data)
+	
+	Object.assign(user, data)	
 	user.save()
 	.then((user) => {
 		res.json(user)
