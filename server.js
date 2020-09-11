@@ -6,7 +6,7 @@ var cors = require('cors')
 var mongoose = require('mongoose')
 var fileUpload = require('express-fileupload')
 
-var Item = require('./item-model')
+var Listing = require('./listing-model')
 var Type = require('./type-model')
 var User = require('./user-model')
 
@@ -32,47 +32,47 @@ router.get('/testing', (req, res) => {
   res.send('<h1>Testing is working</h1>')
 })
 
-//---------------------items route---------------------
-router.get('/items', (req, res) => {
-	Item.find()
-	.then((items) => {
-		res.json(items)
+//---------------------listings route---------------------
+router.get('/listings', (req, res) => {
+	Listing.find()
+	.then((listings) => {
+		res.json(listings)
 	})
 })
 
-router.get('/items/:id', (req, res) => {
-	Item.findOne({id:req.params.id})
-	.then((item) => {
-		res.json(item)
+router.get('/listings/:id', (req, res) => {
+	Listing.findOne({id:req.params.id})
+	.then((listing) => {
+		res.json(listing)
 	})
 })
 
-router.post('/items', (req, res) => {
-	var item = new Item()
-	item.id = Date.now()
+router.post('/listings', (req, res) => {
+	var listing = new Listing()
+	listing.id = Date.now()
 
 	var data = req.body
-	Object.assign(item, data)
-	item.save()
-	.then((item) => {
-		res.json(item)
+	Object.assign(listing, data)
+	listing.save()
+	.then((listing) => {
+		res.json(listing)
 	})
 })
 
-router.put('/items/:id', (req, res) => {
-	Item.findOne({id:req.params.id})
-	.then((item) => {
+router.put('/listings/:id', (req, res) => {
+	Listing.findOne({id:req.params.id})
+	.then((listing) => {
 		var data = req.body
-		Object.assign(item, data)
-		return item.save()
+		Object.assign(listing, data)
+		return listing.save()
 	})
-	.then((item) => {
-		res.json(item)
+	.then((listing) => {
+		res.json(listing)
 	})
 })
 
-router.delete('/items/:id', (req, res) => {
-	Item.deleteOne({id:req.params.id})
+router.delete('/listings/:id', (req, res) => {
+	Listing.deleteOne({id:req.params.id})
 	.then(() => {
 		res.json('deleted')
 	})	

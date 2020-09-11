@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var itemSchema = new Schema(
+var listingSchema = new Schema(
     {
         id: Number,
         name: String,
@@ -18,11 +18,11 @@ var itemSchema = new Schema(
     }
 )
 
-itemSchema.virtual('type', {
+listingSchema.virtual('type', {
     ref: 'Type',
     localField: 'type_id',
     foreignField: 'id',
     justOne: true,
 })
 
-module.exports = mongoose.model('Item', itemSchema)
+module.exports = mongoose.model('Listing', listingSchema)
