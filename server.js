@@ -9,6 +9,7 @@ var fileUpload = require('express-fileupload')
 var Listing = require('./listing-model')
 var Type = require('./type-model')
 var User = require('./user-model')
+var Category = require('./category-model')
 
 //setup express server
 var app = express()
@@ -28,13 +29,13 @@ db.on('error', () => console.log('Database error'))
 
 //setup routes
 var router = express.Router();
-router.get('/testing', (req, res) => {
-  res.send('<h1>Testing is working</h1>')
-})
 
 //---------------------listings route---------------------
 router.get('/listings', (req, res) => {
 	Listing.find()
+	.populate('type',)
+	.populate('user',)
+	.populate('category',)
 	.then((listings) => {
 		res.json(listings)
 	})
@@ -42,6 +43,9 @@ router.get('/listings', (req, res) => {
 
 router.get('/listings/:id', (req, res) => {
 	Listing.findOne({id:req.params.id})
+	.populate('type',)
+	.populate('user',)
+	.populate('category',)
 	.then((listing) => {
 		res.json(listing)
 	})
@@ -88,6 +92,7 @@ router.get('/types', (req, res) => {
 
 router.get('/types/:id', (req, res) => {
 	Type.findOne({id:req.params.id})
+	.populate('listing')
 	.then((type) => {
 		res.json(type)
 	})
@@ -96,6 +101,7 @@ router.get('/types/:id', (req, res) => {
 //---------------------users route---------------------
 router.get('/users', (req, res) => {
 	User.find()
+	.populate('listing')
 	.then((users) => {
 		res.json(users)
 	})
@@ -103,6 +109,7 @@ router.get('/users', (req, res) => {
 
 router.get('/users/:id', (req, res) => {
 	User.findOne({id:req.params.id})
+	.populate('listing')
 	.then((user) => {
 		res.json(user)
 	})
@@ -148,6 +155,25 @@ router.post('/users/authenticate', (req, res) => {
 		return res.json(user)
 	})
 })
+
+//--- Category ---
+router.get('/categories', (req, res) => {
+	Category.find()
+	.populate('listing')
+	.then((categories) => {
+		res.json(categories)
+	})
+})
+
+router.get('/categories/:id', (req, res) => {
+	Category.findOne({id:req.params.id})
+	.populate('listing')
+	.then((category) => {
+		res.json(category)
+	})
+})
+
+//--- File upload ---
 
 router.post('/upload', (req, res) => {
 	var files = Object.values(req.files)

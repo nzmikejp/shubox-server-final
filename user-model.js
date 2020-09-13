@@ -10,7 +10,17 @@ var userSchema = new Schema(
         email: String,
         photo: String
     },
-    { timestamps: true }
+    { 
+        timestamps: true,
+        toJSON: {virtuals: true}
+    }
 )
+
+userSchema.virtual('listing', {
+    ref: 'Listing',
+    localField: 'id',
+    foreignField: 'user_id',
+    justOne: false,
+})
 
 module.exports = mongoose.model('User', userSchema)

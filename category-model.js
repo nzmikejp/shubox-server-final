@@ -1,23 +1,23 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var typeSchema = new Schema(
+var categorySchema = new Schema(
     {
         id: Number,
         name: String,
-        photo: String,
+        color: String,
     },
-    {
+    { 
         timestamps: true,
         toJSON: {virtuals: true}
     }
 )
 
-typeSchema.virtual('listing', {
+categorySchema.virtual('listing', {
     ref: 'Listing',
     localField: 'id',
-    foreignField: 'type_id',
+    foreignField: 'category_id',
     justOne: false,
 })
 
-module.exports = mongoose.model('Type', typeSchema)
+module.exports = mongoose.model('Category', categorySchema)

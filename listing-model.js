@@ -25,4 +25,18 @@ listingSchema.virtual('type', {
     justOne: true,
 })
 
+listingSchema.virtual('user', {
+    ref: 'User',
+    localField: 'user_id',
+    foreignField: 'id',
+    justOne: true,
+})
+
+listingSchema.virtual('category', {
+    ref: 'Category',
+    localField: 'category_id',
+    foreignField: 'id',
+    justOne: true,
+})
+
 module.exports = mongoose.model('Listing', listingSchema)
