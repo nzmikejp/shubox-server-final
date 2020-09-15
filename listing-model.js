@@ -4,13 +4,14 @@ var Schema = mongoose.Schema;
 var listingSchema = new Schema(
     {
         id: Number,
+        brand: String,
         name: String,
         description: String,
-        price: Number,
-        gender: String,
+        price: String,
         photo: String,
         type_id: Number,
         user_id: Number,
+        category_id: Number,
     },
     {
         timestamps: true,

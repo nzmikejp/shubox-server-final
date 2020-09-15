@@ -21,7 +21,7 @@ app.use(fileUpload())
 
 app.use(logger('dev'))
 
-var connectionString = 'mongodb://khoi:Khoitran2004@group-summative-shard-00-00.2tjnk.mongodb.net:27017,group-summative-shard-00-01.2tjnk.mongodb.net:27017,group-summative-shard-00-02.2tjnk.mongodb.net:27017/ShuBox?ssl=true&replicaSet=atlas-g9aucv-shard-0&authSource=admin&retryWrites=true&w=majority'
+var connectionString = 'mongodb://admin:shuboxpass123@cluster0-shard-00-00.58ov6.mongodb.net:27017,cluster0-shard-00-01.58ov6.mongodb.net:27017,cluster0-shard-00-02.58ov6.mongodb.net:27017/ShuBox?ssl=true&replicaSet=atlas-i1bkj5-shard-0&authSource=admin&retryWrites=true&w=majority'
 mongoose.connect(connectionString,{ useNewUrlParser: true })
 var  db = mongoose.connection
 db.once('open', () => console.log('Database connected'))
@@ -92,7 +92,11 @@ router.get('/types', (req, res) => {
 
 router.get('/types/:id', (req, res) => {
 	Type.findOne({id:req.params.id})
-	.populate('listing')
+	// .populate('listings')
+	.populate({ 		
+		path:'listings',
+		populate:'category'
+	})
 	.then((type) => {
 		res.json(type)
 	})
@@ -101,7 +105,7 @@ router.get('/types/:id', (req, res) => {
 //---------------------users route---------------------
 router.get('/users', (req, res) => {
 	User.find()
-	.populate('listing')
+	.populate('listings')
 	.then((users) => {
 		res.json(users)
 	})
@@ -109,7 +113,7 @@ router.get('/users', (req, res) => {
 
 router.get('/users/:id', (req, res) => {
 	User.findOne({id:req.params.id})
-	.populate('listing')
+	.populate('listings')
 	.then((user) => {
 		res.json(user)
 	})
@@ -159,7 +163,7 @@ router.post('/users/authenticate', (req, res) => {
 //--- Category ---
 router.get('/categories', (req, res) => {
 	Category.find()
-	.populate('listing')
+	.populate('listings')
 	.then((categories) => {
 		res.json(categories)
 	})
@@ -167,7 +171,7 @@ router.get('/categories', (req, res) => {
 
 router.get('/categories/:id', (req, res) => {
 	Category.findOne({id:req.params.id})
-	.populate('listing')
+	.populate('listings')
 	.then((category) => {
 		res.json(category)
 	})

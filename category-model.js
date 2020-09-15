@@ -13,7 +13,7 @@ var categorySchema = new Schema(
     }
 )
 
-categorySchema.virtual('listing', {
+categorySchema.virtual('listings', {
     ref: 'Listing',
     localField: 'id',
     foreignField: 'category_id',

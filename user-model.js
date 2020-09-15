@@ -16,7 +16,7 @@ var userSchema = new Schema(
     }
 )
 
-userSchema.virtual('listing', {
+userSchema.virtual('listings', {
     ref: 'Listing',
     localField: 'id',
     foreignField: 'user_id',

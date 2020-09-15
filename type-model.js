@@ -13,7 +13,7 @@ var typeSchema = new Schema(
     }
 )
 
-typeSchema.virtual('listing', {
+typeSchema.virtual('listings', {
     ref: 'Listing',
     localField: 'id',
     foreignField: 'type_id',
