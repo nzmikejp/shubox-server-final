@@ -18,6 +18,7 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use(fileUpload())
+app.use(express.static('public'))
 
 app.use(logger('dev'))
 
@@ -36,6 +37,7 @@ router.get('/listings', (req, res) => {
 	.populate('type',)
 	.populate('user',)
 	.populate('category',)
+	.populate('comment',)
 	.then((listings) => {
 		res.json(listings)
 	})
@@ -46,6 +48,7 @@ router.get('/listings/:id', (req, res) => {
 	.populate('type',)
 	.populate('user',)
 	.populate('category',)
+	.populate('comment',)
 	.then((listing) => {
 		res.json(listing)
 	})
@@ -92,7 +95,6 @@ router.get('/types', (req, res) => {
 
 router.get('/types/:id', (req, res) => {
 	Type.findOne({id:req.params.id})
-	// .populate('listings')
 	.populate({ 		
 		path:'listings',
 		populate:'category'
@@ -105,7 +107,10 @@ router.get('/types/:id', (req, res) => {
 //---------------------users route---------------------
 router.get('/users', (req, res) => {
 	User.find()
-	.populate('listings')
+	.populate({ 		
+		path:'listings',
+		populate:'category'
+	})
 	.then((users) => {
 		res.json(users)
 	})
@@ -113,7 +118,10 @@ router.get('/users', (req, res) => {
 
 router.get('/users/:id', (req, res) => {
 	User.findOne({id:req.params.id})
-	.populate('listings')
+	.populate({ 		
+		path:'listings',
+		populate:'category'
+	})
 	.then((user) => {
 		res.json(user)
 	})
@@ -155,6 +163,10 @@ router.post('/users/authenticate', (req, res) => {
 	var {username, password} = req.body;
 	var credential = {username, password}
 	User.findOne(credential)
+	.populate({ 		
+		path:'listings',
+		populate:'category'
+	})
 	.then((user) => {
 		return res.json(user)
 	})
@@ -163,7 +175,6 @@ router.post('/users/authenticate', (req, res) => {
 //--- Category ---
 router.get('/categories', (req, res) => {
 	Category.find()
-	.populate('listings')
 	.then((categories) => {
 		res.json(categories)
 	})
