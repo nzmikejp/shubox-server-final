@@ -10,6 +10,7 @@ var Listing = require('./listing-model')
 var Type = require('./type-model')
 var User = require('./user-model')
 var Category = require('./category-model')
+var Comment = require('./comment-model')
 
 //setup express server
 var app = express()
@@ -185,6 +186,16 @@ router.get('/categories/:id', (req, res) => {
 	.populate('listings')
 	.then((category) => {
 		res.json(category)
+	})
+})
+
+//--- Comment ---
+router.get('/comments', (req, res) => {
+	Comment.find()
+	.populate('listings')
+	.populate('user')
+	.then((comments) => {
+		res.json(comments)
 	})
 })
 
