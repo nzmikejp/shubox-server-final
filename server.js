@@ -137,6 +137,7 @@ router.post('/users', (req,res) => {
 	Object.assign(user, data)	
 	user.save()
 	.then((user) => {
+		user.listings = []
 		res.json(user)
 	})
 })
@@ -154,7 +155,11 @@ router.put('/users/:id', (req, res) => {
 })
 
 router.delete('/users/:id', (req, res) => {
-	User.deleteOne({id:req.params.id})
+
+	Listing.deleteMany({user_id:req.params.id})
+	.then(() => {
+		return User.deleteOne({id:req.params.id})
+	})	
 	.then(() => {
 		res.json('deleted')
 	})	
