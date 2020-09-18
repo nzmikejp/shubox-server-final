@@ -40,4 +40,5 @@ listingSchema.virtual('category', {
     justOne: true,
 })
 
+
 module.exports = mongoose.model('Listing', listingSchema)

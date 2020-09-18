@@ -38,7 +38,6 @@ router.get('/listings', (req, res) => {
 	.populate('type',)
 	.populate('user',)
 	.populate('category',)
-	.populate('comment',)
 	.then((listings) => {
 		res.json(listings)
 	})
@@ -49,7 +48,6 @@ router.get('/listings/:id', (req, res) => {
 	.populate('type',)
 	.populate('user',)
 	.populate('category',)
-	.populate('comment',)
 	.then((listing) => {
 		res.json(listing)
 	})
@@ -197,12 +195,41 @@ router.get('/categories/:id', (req, res) => {
 //--- Comment ---
 router.get('/comments', (req, res) => {
 	Comment.find()
-	.populate('listings')
+	.populate('listing')
 	.populate('user')
 	.then((comments) => {
 		res.json(comments)
 	})
 })
+
+router.get('/comments/:id', (req, res) => {
+	Comment.findOne({id:req.params.id})
+	.populate('listing')
+	.populate('user')
+	.then((comment) => {
+		res.json(comment)
+	})
+})
+
+router.post('/comments', (req, res) => {
+	var comment = new Comment()
+	comment.id = Date.now()
+
+	var data = req.body
+	Object.assign(comment, data)
+	comment.save()
+	.then((comment) => {
+		res.json(comment)
+	})
+})
+
+router.delete('/comments/:id', (req, res) => {
+	Comment.deleteOne({id:req.params.id})
+	.then(() => {
+		res.json('deleted')
+	})	
+})
+
 
 //--- File upload ---
 

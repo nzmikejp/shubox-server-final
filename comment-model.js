@@ -14,7 +14,7 @@ var commentSchema = new Schema(
     }
 )
 
-commentSchema.virtual('listings', {
+commentSchema.virtual('listing', {
     ref: 'Listing',
     localField: 'listing_id',
     foreignField: 'id',
