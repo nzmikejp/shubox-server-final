@@ -18,14 +18,14 @@ commentSchema.virtual('listing', {
     ref: 'Listing',
     localField: 'listing_id',
     foreignField: 'id',
-    justOne: false,
+    justOne: true,
 })
 
 commentSchema.virtual('user', {
     ref: 'User',
     localField: 'user_id',
     foreignField: 'id',
-    justOne: false,
+    justOne: true,
 })
 
 module.exports = mongoose.model('Comment', commentSchema)
