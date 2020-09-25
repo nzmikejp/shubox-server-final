@@ -96,7 +96,7 @@ router.get('/types/:id', (req, res) => {
 	Type.findOne({id:req.params.id})
 	.populate({ 		
 		path:'listings',
-		populate:'category'
+		populate:['category','user']
 	})
 	.then((type) => {
 		res.json(type)
