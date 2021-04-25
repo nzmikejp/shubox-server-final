@@ -24,7 +24,7 @@ app.use(express.static('public'))
 app.use(logger('dev'))
 
 var connectionString = 'mongodb://admin:shuboxpass123@cluster0-shard-00-00.58ov6.mongodb.net:27017,cluster0-shard-00-01.58ov6.mongodb.net:27017,cluster0-shard-00-02.58ov6.mongodb.net:27017/ShuBox?ssl=true&replicaSet=atlas-i1bkj5-shard-0&authSource=admin&retryWrites=true&w=majority'
-mongoose.connect(connectionString,{ useNewUrlParser: true })
+mongoose.connect(connectionString,{ useNewUrlParser: true, useUnifiedTopology: true })
 var  db = mongoose.connection
 db.once('open', () => console.log('Database connected'))
 db.on('error', () => console.log('Database error'))
